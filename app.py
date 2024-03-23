@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 from streamlit_chat import message
-from utils import openai_model
+from utils.utils import openai_model
 from embedding import ask_db
 
 st.title("OpSec Assistant")

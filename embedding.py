@@ -8,13 +8,17 @@ from langchain_text_splitters import CharacterTextSplitter
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-loader = TextLoader("information.txt")
+loader = TextLoader("./data/information.txt")
 documents = loader.load()
 
 embeddings = OpenAIEmbeddings()
 
 # split it into chunks
-text_splitter = CharacterTextSplitter(chunk_size=700, chunk_overlap=100)
+text_splitter = CharacterTextSplitter(separator="\n\n",
+    chunk_size=1000,
+    chunk_overlap=200,
+    length_function=len,
+    is_separator_regex=False)
 docs = text_splitter.split_documents(documents)
 # load it into Chroma
 db = Chroma.from_documents(docs, embeddings)
