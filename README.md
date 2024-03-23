@@ -4,5 +4,5 @@
 
 execute streamlit code
 ```
-streamlit run app.py --server.port 6666
+streamlit run app.py --server.port 7666
 ```

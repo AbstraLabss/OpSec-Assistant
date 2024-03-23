@@ -4,7 +4,9 @@ from streamlit_chat import message
 from utils import openai_model
 from embedding import ask_db
 
-st.title("ChatGPT ChatBot With Streamlit and OpenAI")
+st.title("OpSec Assistant")
+st.title("Your best OpSec Customer Service")
+
 if 'user_input' not in st.session_state:
 	st.session_state['user_input'] = []
 
@@ -12,7 +14,7 @@ if 'openai_response' not in st.session_state:
 	st.session_state['openai_response'] = []
 
 def get_text():
-	input_text = st.text_input("write here", key="input")
+	input_text = st.text_input("Input your question about OpSec here", key="input")
 	return input_text
 
 user_input = get_text()
