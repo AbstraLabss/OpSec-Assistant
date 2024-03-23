@@ -1,45 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
+from langchain_community.document_loaders import TextLoader
 from constants import URL_PATH
-import pandas as pd
 
-def get_url_content(url : str):
-
+def crawl_website(url):
+    # Send a GET request to the website
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
 
-    content_divs = soup.find_all('article', class_='doc')
-    contents = ""
-    for div in content_divs:
-        
-        # remove <nav>
-        nav_tag = div.find('nav', class_='pagination')
-        if nav_tag:
-            nav_tag.decompose()
-        
-        content = div.get_text(strip=True, separator = "\n")
-        contents = contents + content
-    
-    return contents
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Create a BeautifulSoup object to parse the HTML content
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-def main():
-    # load urls content
-    urls = URL_PATH
-    contents = []
-    from_url = []
+        # Find the main content container
+        content_container = soup.find('div', class_='markdown-section')
 
-    for url in urls:
-        text = get_url_content(url)
-        from_url.append(url)
-        print(text)
-        contents.append(text)
-        print("\n\n\n")
-        
-    result = pd.DataFrame()
-    result["url"] = from_url
-    result["content"] = contents
-    result.to_csv("Starknet_docs.csv",index = False, encoding = "utf-8")
-    
+        if content_container:
+            # Extract the text content from the container
+            content = content_container.get_text()
 
-if __name__ == "__main__":
-    main()
+            # Print the extracted content
+            print(content)
+        else:
+            print("Content container not found.")
+    else:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+
+loader = TextLoader("./information.txt")
+loader.load()

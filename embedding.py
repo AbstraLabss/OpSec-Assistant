@@ -1,53 +1,30 @@
-import logging
-import os
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
-import pandas as pd
-import re
-from langchain.docstore.document import Document
-from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import Chroma
+# import
+from langchain_community.document_loaders import TextLoader
 import chromadb
-from chromadb.config import Settings
+from langchain_openai import OpenAIEmbeddings
+import os
+from langchain_community.vectorstores import Chroma
+from langchain_text_splitters import CharacterTextSplitter
+from dotenv import load_dotenv
+load_dotenv()
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+loader = TextLoader("information.txt")
+documents = loader.load()
 
-from constants import (
-    EMBEDDING_MODEL_NAME,
-    INGEST_THREADS,
-    EMBEDDING_DIRECTORY,
-    SOURCE_DIRECTORY
-)
+embeddings = OpenAIEmbeddings()
 
-def main():
-    df = pd.read_csv("Starknet_docs.csv", encoding = "utf-8")
-    logging.info(f"Loading documents from {SOURCE_DIRECTORY}")
-    
-    text_splitter = RecursiveCharacterTextSplitter(
-        # Set a really small chunk size, just to show.
-        chunk_size = 500,
-        chunk_overlap  = 50,
-        length_function = len,
-        is_separator_regex = False,
-    )
+# split it into chunks
+text_splitter = CharacterTextSplitter(chunk_size=800, chunk_overlap=0)
+docs = text_splitter.split_documents(documents)
+# load it into Chroma
+db = Chroma.from_documents(docs, embeddings)
 
-    # change to langchain format
-    metadatas = []
-    for i in list(df["url"]):
-        metadatas.append({"document":i})
+def ask_db(query : str):
 
-    texts = text_splitter.create_documents(list(df["content"]), metadatas=metadatas)
-    logging.info(f"Split into {len(texts)} chunks of text")
-
-    # save into chromadb
-    # client = chromadb.PersistentClient(settings=CHROMA_SETTINGS , path=EMBEDDING_DIRECTORY)
-    db = Chroma.from_documents(
-        texts,
-        EMBEDDING_MODEL_NAME,
-        persist_directory=EMBEDDING_DIRECTORY,
-    )
-
-    logging.info(f"Save to database :{EMBEDDING_DIRECTORY}")
-
-
-if __name__ == "__main__":
-
-    main()
+    query = query
+    docs = db.similarity_search_with_score(query, k = 4)
+    return_content = ""
+    for doc in docs:
+        return_content += doc[0].page_content
+    print(return_content)
+    return return_content
