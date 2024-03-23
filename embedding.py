@@ -1,6 +1,5 @@
 # import
 from langchain_community.document_loaders import TextLoader
-import chromadb
 from langchain_openai import OpenAIEmbeddings
 import os
 from langchain_community.vectorstores import Chroma
