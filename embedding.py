@@ -2,30 +2,31 @@
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
 import os
-from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import CharacterTextSplitter
+from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
+
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
 loader = TextLoader("./data/information.txt")
 documents = loader.load()
-
 embeddings = OpenAIEmbeddings()
 
 # split it into chunks
 text_splitter = CharacterTextSplitter(separator="\n\n",
-    chunk_size=1000,
-    chunk_overlap=200,
-    length_function=len,
-    is_separator_regex=False)
+                                      chunk_size=1000,
+                                      chunk_overlap=200,
+                                      length_function=len,
+                                      is_separator_regex=False)
 docs = text_splitter.split_documents(documents)
-# load it into Chroma
-db = Chroma.from_documents(docs, embeddings)
 
-def ask_db(query : str):
+# load it into FAISS
+db = FAISS.from_documents(docs, embeddings)
 
+def ask_db(query: str):
     query = query
-    docs = db.similarity_search_with_score(query, k = 2)
+    docs = db.similarity_search_with_score(query, k=2)
     return_content = ""
     for doc in docs:
         return_content += doc[0].page_content
