@@ -12,3 +12,6 @@ streamlit run app.py --server.port 7666
 
 # Constraint
 Due to the time constraints of the hackathon, there wasn't much time to perfect the frontend design and the effectiveness of AI RAG. If given the opportunity, we will further refine it in the future and integrate other AI elements to assist the OpSec ecosystem.
+
+# Local Server vector db
+http://172.21.10.105:6333/
