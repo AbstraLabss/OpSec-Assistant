@@ -5,7 +5,7 @@ from utils.utils import openai_model
 from embedding import ask_db
 
 st.title("OpSec Assistant")
-st.title("Your best OpSec Customer Service")
+st.title("Can answer anything about OpSec")
 
 if 'user_input' not in st.session_state:
 	st.session_state['user_input'] = []

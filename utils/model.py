@@ -1,11 +1,12 @@
 import tiktoken
 import os
 from openai import OpenAI
-from constant import COMPLETIONS_MODEL
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_APIKEY")
 client = OpenAI()
+
+COMPLETIONS_MODEL = "gpt-3.5-turbo"
 
 def num_tokens_from_string(string: str, encoding_name = COMPLETIONS_MODEL) -> int:
     """Returns the number of tokens in a text string."""
