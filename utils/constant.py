@@ -7,4 +7,4 @@ START_TXT = "Conclusion (/conclusion) Glossary (/glossary)"
 # Embedding setting
 COLLECTION_NAME = "OPSEC"
 EMBEDDING_MODEL = "text-embedding-3-small"
-FILE_PATH = "./data/content.txt"
+FILE_PATH = "./data/information.txt"
