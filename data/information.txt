@@ -296,7 +296,7 @@ We consider a combination of factors including community demand, technical feasi
 
 
 
-What are the core features of your OpSec L1?
+What will the core features of your OpSec L1 be?
 OpSec L1 will prioritize scalability, low fees, specific security or privacy mechanisms, and developer-friendliness. It is designed to complement existing blockchains and expand the possibilities within our ecosystem. We Proof of Stake Consensus Mechanism (PoS), Proof of Cloud Consensus Mechanism (PoC), Modular Architecture, Data Availability
 
 

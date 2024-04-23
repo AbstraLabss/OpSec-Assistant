@@ -3,7 +3,6 @@ from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from qdrant_client.http.models import PointStruct
 from utils.constant import COLLECTION_NAME, EMBEDDING_MODEL, FILE_PATH
-from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import tiktoken
 import numpy as np
@@ -72,8 +71,8 @@ def main():
         contents = f.read()
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
+        chunk_size=800,
+        chunk_overlap=150,
         length_function=len,
         separators=[
         "\n\n",
@@ -85,7 +84,7 @@ def main():
     
     data_objs = []
     embedding_array = []
-    for i in range(20):
+    for i in range(len(docs)):
         vector = get_embedding(docs[i].page_content)
         embedding_array.append(vector)
         data_objs.append({"id" : i, "content" : docs[i].page_content})

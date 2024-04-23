@@ -44,7 +44,7 @@ def main():
 	if user_input:
 		qclient = get_client()
 		query_embedding = get_embedding(user_input, EMBEDDING_MODEL)
-		results = search_from_qdrant(qclient, query_embedding, k=4)
+		results = search_from_qdrant(qclient, query_embedding, k=6)
         
 		need_info = ""
 		for result in results:

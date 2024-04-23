@@ -35,12 +35,13 @@ async def get_answer(query: Query):
     query_text = query.query_text
 
     query_embedding = get_embedding(query_text, EMBEDDING_MODEL)
-    results = search_from_qdrant(qclient, query_embedding, k=4)
+    results = search_from_qdrant(qclient, query_embedding, k=6)
 
     need_info = ""
     for result in results:
         need_info += result.payload["content"]
         need_info += "\n"
-
+    
+    print(need_info)
     answer = generate_respond(need_info, query_text)
     return {"answer": answer}
