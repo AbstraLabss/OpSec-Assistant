@@ -4,6 +4,9 @@ OpSec Assistant is a Exclusive customer service that can help you thoroughly und
 # Goal
 After crawling information about OpSec, this AI customer service can answer any question regarding to OpSec. Utilizing AI, RAG, LLm technique. Our OpSec Assistant can efficiently assist users in resolving issues.
 
+# Work flow
+![OpSec assistant](./data/flow.png)
+
 # Endpoint for simply use
 ```
 https://opsec-assistant.onrender.com/docs
