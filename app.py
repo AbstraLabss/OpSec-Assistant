@@ -58,7 +58,7 @@ def main():
 		st.session_state.assistant_response.append(user_input)
 		st.session_state.user_input.append(answer)
 
-	message_history = st.empty()
+	#message_history = st.empty()
 
 	if st.session_state['user_input']:
 		for i in range(len(st.session_state['user_input']) - 1, -1, -1):
